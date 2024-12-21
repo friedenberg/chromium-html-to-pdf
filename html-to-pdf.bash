@@ -1,4 +1,4 @@
-#! /usr/bin/env bash -xe
+#! /usr/bin/env bash -e
 
 CMD_CHROME='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
 
