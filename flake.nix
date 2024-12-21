@@ -20,12 +20,23 @@
           buildCommand = "${old.buildCommand}\n patchShebangs $out";
         });
       in rec {
-        defaultPackage = packages.html-to-pdf;
         packages.html-to-pdf = pkgs.symlinkJoin {
           name = name;
           paths = [ html-to-pdf ] ++ buildInputs;
           buildInputs = [ pkgs.makeWrapper ];
           postBuild = "wrapProgram $out/bin/${name} --prefix PATH : $out/bin";
+        };
+
+        defaultPackage = packages.html-to-pdf;
+
+        devShells.default = pkgs.mkShell {
+          packages = (with pkgs; [
+            httpie
+            jq
+            websocat
+          ]);
+
+          inputsFrom = [];
         };
       }
     );
