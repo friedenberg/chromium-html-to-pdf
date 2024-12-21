@@ -39,12 +39,12 @@ function request_print_page() {
 if [[ -t 1 ]]; then
   outfile="$target.pdf"
 else
-  outfile="&1"
+  outfile="/dev/stdout"
 fi
 
 echo "Requesting chrome print page from debugger url ($url)" >&2
 request_print_page |
   jq -r '.result.data' |
-  base64 -d -i - >"$target.pdf"
+  base64 -d -i - >"$outfile"
 
-echo "Wrote PDF to '$target.pdf'"
+echo "Wrote PDF to '$outfile'" >&2
