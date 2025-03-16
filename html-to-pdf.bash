@@ -1,6 +1,6 @@
 #! /usr/bin/env bash -e
 
-CMD_CHROME='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+CMD_CHROME="$(which chromium)"
 
 target="$1"
 options="$2"
@@ -10,6 +10,7 @@ port="9222"
 echo "Running Chrome ($CMD_CHROME)" >&2
 coproc chrome (
   "$CMD_CHROME" \
+    --no-sandbox \
     --headless \
     --remote-debugging-port=$port \
     --remote-allow-origins=http://127.0.0.1:$port \
@@ -20,6 +21,7 @@ coproc chrome (
 # chrome appears to ignore SIGTERM in headless and continues running
 trap 'kill -9 $chrome_PID' EXIT
 read -r output <&"${chrome[0]}"
+echo "$output"
 
 function get_websocket_debugger_url() {
   http GET localhost:$port/json/list |

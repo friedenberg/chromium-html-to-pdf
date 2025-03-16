@@ -13,7 +13,7 @@
       let
         pkgs = import nixpkgs { inherit system; };
         name = "html-to-pdf";
-        buildInputs = with pkgs; [ httpie jq websocat ];
+        buildInputs = with pkgs; [ httpie jq websocat chromium ];
         html-to-pdf = (
           pkgs.writeScriptBin name (builtins.readFile ./html-to-pdf.bash)
         ).overrideAttrs(old: {
